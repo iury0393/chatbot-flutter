@@ -1,3 +1,4 @@
+import 'package:chatbot/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chatbot/views/chat_screen.dart';
 
@@ -14,9 +15,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: ChatScreen.id,
+      initialRoute: HomeScreen.id,
       routes: {
-        //HomeScreen.id : (context) => HomeScreen(),
+        HomeScreen.id : (context) => HomeScreen(),
         ChatScreen.id : (context) => ChatScreen(),
       }
     );
