@@ -40,13 +40,14 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
- // Cria a lista de mensagens (de baixo para cima)
-    Widget _buildList() {
+  // Cria a lista de mensagens (de baixo para cima)
+  Widget _buildList() {
     return Flexible(
       child: ListView.builder(
         padding: EdgeInsets.all(8.0),
         reverse: true,
-        itemBuilder: (_, int index) => ChatMessageListItem(chatMessage: _messageList[index]),
+        itemBuilder: (_, int index) =>
+            ChatMessageListItem(chatMessage: _messageList[index]),
         itemCount: _messageList.length,
       ),
     );
@@ -55,35 +56,34 @@ class _ChatScreenState extends State<ChatScreen> {
   // Envia uma mensagem com o padrão a direita
   void _sendMessage({String text}) {
     _controllerText.clear();
-    _addMessage(name: 'Iury Vasconcelos', text: text, type: ChatMessageType.sent);
+    _addMessage(
+        name: 'Iury Vasconcelos', text: text, type: ChatMessageType.sent);
   }
 
   // Adiciona uma mensagem na lista de mensagens
   void _addMessage({String name, String text, ChatMessageType type}) {
-    var message = ChatMessage(
-        text: text, name: name, type: type);
+    var message = ChatMessage(text: text, name: name, type: type);
     setState(() {
       _messageList.insert(0, message);
     });
 
     if (type == ChatMessageType.sent) {
       // Envia a mensagem para o chatbot e aguarda sua resposta
-      _dialogFlowRequest(query: message.text);  
+      _dialogFlowRequest(query: message.text);
     }
   }
-  
+
   // Método incompleto ainda
   Future _dialogFlowRequest({String query}) async {
     // Adiciona uma mensagem temporária na lista
     _addMessage(
-      name: 'Gimli',
-      text: 'Batalhando...',
-      type: ChatMessageType.received
-    );
+        name: 'Gimli', text: 'Batalhando...', type: ChatMessageType.received);
 
     // Faz a autenticação com o serviço, envia a mensagem e recebe uma resposta da Intent
-    AuthGoogle authGoogle = await AuthGoogle(fileJson: "assets/credentials.json").build();
-    Dialogflow dialogflow = Dialogflow(authGoogle: authGoogle, language: "pt-BR");
+    AuthGoogle authGoogle =
+        await AuthGoogle(fileJson: "assets/credentials.json").build();
+    Dialogflow dialogflow =
+        Dialogflow(authGoogle: authGoogle, language: "pt-BR");
     AIResponse response = await dialogflow.detectIntent(query);
 
     // remove a mensagem temporária
@@ -93,11 +93,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
     // adiciona a mensagem com a resposta do DialogFlow
     _addMessage(
-      name: 'Gimli',
-      text: response.getMessage() ?? '',
-      type: ChatMessageType.received
-    );
-}
+        name: 'Gimli',
+        text: response.getMessage() ?? '',
+        type: ChatMessageType.received);
+  }
 
   // Campo para escrever a mensagem
   Widget _buildTextField() {
