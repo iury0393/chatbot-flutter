@@ -5,13 +5,24 @@ import 'package:flutter_dialogflow/dialogflow_v2.dart';
 
 class ChatScreen extends StatefulWidget {
   static final id = 'chat_screen';
+  final String name;
+
+  ChatScreen({Key key, @required this.name}) : super(key: key);
+
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
   final _messageList = <ChatMessage>[];
-  final _controllerText = new TextEditingController();
+  TextEditingController _controllerText;
+
+  @override
+  void initState() {
+    super.initState();
+    String userName = widget.name;
+    _controllerText = TextEditingController(text: userName);
+  }
 
   @override
   void dispose() {
